@@ -1,9 +1,9 @@
 import Select from "react-select";
 import * as xlsx from "xlsx";
-import DataGrid, { Column, DataGridProps } from "react-data-grid";
+import DataGrid, { Column } from "react-data-grid";
 import columns from "./columns.json";
 import data from "./data.json";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 function getColumnName(name: string): string {
   const column = columns.find((column) => column.MDS_Name === name);
@@ -109,23 +109,6 @@ const COLUMNS = [
     resizable: true,
     sortable: true,
     minWidth: column.name.length * 10,
-    headerRenderer: (props) => {
-      // eslint-disable-next-line react-hooks/rules-of-hooks
-      // const [filterOpen, setFilterOpen] = useState(false);
-      return (
-        <div
-          style={
-            {
-              // display: "flex",
-              // flexDirection: "row",
-              // alignItems: "center",
-            }
-          }
-        >
-          <span style={{ flexGrow: 1 }}>{props.column.name}</span>
-        </div>
-      );
-    },
   })
 );
 
@@ -207,6 +190,8 @@ function Table() {
         <div style={{ flexShrink: 0 }}>
           תקופת הדיווח:{" "}
           <Select
+            id="report-period-select"
+            instanceId="report-period-select"
             options={REPORT_PERIOD_OPTIONS}
             onChange={(selected) =>
               setFilters((filters) => ({
@@ -223,6 +208,8 @@ function Table() {
         <div style={{ flexShrink: 0 }}>
           סוג קופה:{" "}
           <Select
+            id="fund-classification-select"
+            instanceId="fund-classification-select"
             options={FUND_CLASSIFICATION_OPTIONS}
             onChange={(selected) =>
               setFilters((filters) => ({
@@ -239,6 +226,8 @@ function Table() {
         <div style={{ flexShrink: 0 }}>
           סוג התמחות ראשית:{" "}
           <Select
+            id="specialization-select"
+            instanceId="specialization-select"
             options={SPECIALIZATION_OPTIONS}
             onChange={(selected) =>
               setFilters((filters) => ({
@@ -255,6 +244,8 @@ function Table() {
         <div style={{ flexShrink: 0 }}>
           סוג התמחות משנית:{" "}
           <Select
+            id="sub-specialization-select"
+            instanceId="sub-specialization-select"
             options={SUB_SPECIALIZATION_OPTIONS}
             onChange={(selected) =>
               setFilters((filters) => ({
@@ -271,6 +262,8 @@ function Table() {
         <div style={{ flexShrink: 0 }}>
           אוכלוסיית יעד:{" "}
           <Select
+            id="target-population-select"
+            instanceId="target-population-select"
             options={TARGET_POPULATION_OPTIONS}
             onChange={(selected) =>
               setFilters((filters) => ({

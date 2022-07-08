@@ -1,6 +1,5 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import Image from "next/image";
 import Table from "../Table";
 
 const Home: NextPage = () => {
@@ -23,25 +22,19 @@ const Home: NextPage = () => {
         </main>
 
         <footer style={{ padding: 16 }}>
+          מידע:{" "}
           <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+            style={{ color: "#6A4E2C", textDecoration: "underline" }}
+            href="https://data.gov.il/dataset/gemelnet"
           >
-            מידע:{" "}
-            <a
-              style={{ color: "#6A4E2C", textDecoration: "underline" }}
-              href="https://data.gov.il/dataset/gemelnet"
-            >
-              גמלנט
-            </a>
-            , פיתוח:{" "}
-            <a
-              style={{ color: "#6A4E2C", textDecoration: "underline" }}
-              href="https://aniddan.com"
-            >
-              עידן אהרנסון
-            </a>
+            גמלנט
+          </a>
+          , פיתוח:{" "}
+          <a
+            style={{ color: "#6A4E2C", textDecoration: "underline" }}
+            href="https://aniddan.com"
+          >
+            עידן אהרנסון
           </a>
         </footer>
       </div>
