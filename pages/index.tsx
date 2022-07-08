@@ -28,7 +28,20 @@ const Home: NextPage = () => {
             target="_blank"
             rel="noopener noreferrer"
           >
-            מידע: גמלנט, פיתוח: עידן אהרנסון
+            מידע:{" "}
+            <a
+              style={{ color: "#6A4E2C", textDecoration: "underline" }}
+              href="https://data.gov.il/dataset/gemelnet"
+            >
+              גמלנט
+            </a>
+            , פיתוח:{" "}
+            <a
+              style={{ color: "#6A4E2C", textDecoration: "underline" }}
+              href="https://aniddan.com"
+            >
+              עידן אהרנסון
+            </a>
           </a>
         </footer>
       </div>
