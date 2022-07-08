@@ -1,0 +1,172 @@
+[
+  {
+    "MDS_Name": "DESCRIPTION1",
+    "MDS_Info_Name": "סכומים במיליוני ₪",
+    "MDS_Des": "סכומים במיליוני ₪"
+  },
+  {
+    "MDS_Name": "DESCRIPTION2",
+    "MDS_Info_Name": "תשואות נומינליות ברוטו",
+    "MDS_Des": "תשואות נומינליות ברוטו"
+  },
+  {
+    "MDS_Name": "FUND_ID",
+    "MDS_Info_Name": "מס' הקופה",
+    "MDS_Des": "מספר מס הכנסה של קופת הגמל. זיהוי יחודי לקופה."
+  },
+  {
+    "MDS_Name": "FUND_NAME",
+    "MDS_Info_Name": "שם קופה",
+    "MDS_Des": "שם קופה -  מלל"
+  },
+  {
+    "MDS_Name": "FUND_CLASSIFICATION",
+    "MDS_Info_Name": "סוג קופה",
+    "MDS_Des": "סוג קופת גמל: תגמולים ואישית לפיצויים, קרנות השתלמות, מרכזית לפיצויים, מטרה אחרת, קופת גמל להשקעה, קופת גמל להשקעה חיסכון לכל ילד"
+  },
+  {
+    "MDS_Name": "CONTROLLING_CORPORATION",
+    "MDS_Info_Name": "שם תאגיד שולט",
+    "MDS_Des": "שם תאגיד שולט"
+  },
+  {
+    "MDS_Name": "MANAGING_CORPORATION",
+    "MDS_Info_Name": "שם חברה מנהלת",
+    "MDS_Des": "שם חברה מנהלת"
+  },
+  {
+    "MDS_Name": "REPORT_PERIOD",
+    "MDS_Info_Name": "תקופת הדיווח yyyymm",
+    "MDS_Des": "תקופת הדיווח yyyymm"
+  },
+  {
+    "MDS_Name": "INCEPTION_DATE",
+    "MDS_Info_Name": "תאריך הקמה",
+    "MDS_Des": "תאריך הקמת הקופה/מסלול"
+  },
+  {
+    "MDS_Name": "TARGET_POPULATION",
+    "MDS_Info_Name": "אוכלוסיית יעד",
+    "MDS_Des": "האם מיועדת לכלל האוכלוסייה או לעובדי מפעל/גוף מסויים (ענפיות)"
+  },
+  {
+    "MDS_Name": "SPECIALIZATION",
+    "MDS_Info_Name": "סוג התמחות ראשית",
+    "MDS_Des": "כללי, מניות, אג\"ח, מט\"ח, שקלי, מדד, חו\"ל, ישראל, הלכתי, חכ\"מ אחר,אחר"
+  },
+  {
+    "MDS_Name": "SUB_SPECIALIZATION",
+    "MDS_Info_Name": "סוג התמחות משנית",
+    "MDS_Des": "כללי: ללא מניות, עד 10% מניות, ממשלתי, פסיבי, כללי. מניות: ישראל, חו\"ל, הייטק, פסיבי. אג\"ח: ללא מניות, צמוד מדד, קונצרני, טווח קצר, לא צמוד, ממשלתי, סולידי, משולב מניות וכו'. וכו'."
+  },
+  {
+    "MDS_Name": "DEPOSITS",
+    "MDS_Info_Name": "הפקדות ללא העברות",
+    "MDS_Des": "הפקדות של עמיתם שכירים ועצמאים לקופה"
+  },
+  {
+    "MDS_Name": "WITHDRAWLS",
+    "MDS_Info_Name": "משיכות ללא העברות",
+    "MDS_Des": "תשלומים לעמיתים שכירים ועצמאיים"
+  },
+  {
+    "MDS_Name": "INTERNAL_TRANSFERS",
+    "MDS_Info_Name": "העברות בין הקופות",
+    "MDS_Des": "העברות נטו בין הקופות. העברות מקופות גמל אחרות פחות העברות לקופות אחרות"
+  },
+  {
+    "MDS_Name": "NET_MONTHLY_DEPOSITS",
+    "MDS_Info_Name": "צבירה נטו",
+    "MDS_Des": "הפקדות - משיכות +/- העברות"
+  },
+  {
+    "MDS_Name": "TOTAL_ASSETS",
+    "MDS_Info_Name": "יתרת נכסים לסוף תקופה",
+    "MDS_Des": "יתרת נכסים לסוף תקופה שנבחרה בעד תקופת דיווח"
+  },
+  {
+    "MDS_Name": "AVG_ANNUAL_MANAGEMENT_FEE",
+    "MDS_Info_Name": "שיעור דמי ניהול ממוצעת שנתי – נכסים",
+    "MDS_Des": "שיעור דמי ניהול ממוצעת שנתי – נכסים"
+  },
+  {
+    "MDS_Name": "AVG_DEPOSIT_FEE",
+    "MDS_Info_Name": "שיעור דמי ניהול ממוצעת מהפקדות",
+    "MDS_Des": "שיעור דמי ניהול ממוצעת- הפקדות"
+  },
+  {
+    "MDS_Name": "MONTHLY_YIELD",
+    "MDS_Info_Name": "תשואה חודשית",
+    "MDS_Des": "תשואה חודשית"
+  },
+  {
+    "MDS_Name": "YEAR_TO_DATE_YIELD",
+    "MDS_Info_Name": "תשואה מצטברת מתחילת השנה",
+    "MDS_Des": "תשואה מצטברת מתחילת השנה"
+  },
+  {
+    "MDS_Name": "YIELD_TRAILING_3_YRS",
+    "MDS_Info_Name": "תשואה מצטברת ל-3 שנים עוקבות",
+    "MDS_Des": "תשואה מצטברת ל-3 שנים עוקבות"
+  },
+  {
+    "MDS_Name": "YIELD_TRAILING_5_YRS",
+    "MDS_Info_Name": "תשואה מצטברת ל-5 שנים עוקבות",
+    "MDS_Des": "תשואה מצטברת ל-5 שנים עוקבות"
+  },
+  {
+    "MDS_Name": "AVG_ANNUAL_YIELD_TRAILING_3YRS",
+    "MDS_Info_Name": "תשואה שנתיתי ממוצעת ל-3 שנים עוקבות",
+    "MDS_Des": "תשואה שנתיתי ממוצעת ל-3 שנים עוקבות"
+  },
+  {
+    "MDS_Name": "AVG_ANNUAL_YIELD_TRAILING_5YRS",
+    "MDS_Info_Name": "תשואה שנתית ממוצעת ל-5 שנים עוקבות",
+    "MDS_Des": "תשואה שנתית ממוצעת ל-5 שנים עוקבות"
+  },
+  {
+    "MDS_Name": "STANDARD_DEVIATION",
+    "MDS_Info_Name": "סטית תקן – 5 שנים עוקבות",
+    "MDS_Des": "סטית תקן – 5 שנים עוקבות"
+  },
+  {
+    "MDS_Name": "ALPHA",
+    "MDS_Info_Name": "אלפא שנתית",
+    "MDS_Des": "חישוב אלפא שנתית של תשואות הקופה על סמך התשואה החודשית של 60 החודשים האחרונים"
+  },
+  {
+    "MDS_Name": "SHARPE_RATIO",
+    "MDS_Info_Name": "שארפ ריבית חסרת סיכון",
+    "MDS_Des": "מדד שנתית של תשואות הקופה ביחס למדד ריבית ללא סיכון, על סמך התשואה החודשית של 60 החודשים האחרונים"
+  },
+  {
+    "MDS_Name": "LIQUID_ASSETS_PERCENT",
+    "MDS_Info_Name": "יחס נזילות",
+    "MDS_Des": "אחוז הנזילות של נכסי הקופה"
+  },
+  {
+    "MDS_Name": "STOCK_MARKET_EXPOSURE",
+    "MDS_Info_Name": "חשיפה למניות",
+    "MDS_Des": "חשיפה למניות"
+  },
+  {
+    "MDS_Name": "FOREIGN_EXPOSURE",
+    "MDS_Info_Name": "חשיפה לחו\"ל",
+    "MDS_Des": "חשיפה לחו\"ל"
+  },
+  {
+    "MDS_Name": "FOREIGN_CURRENCY_EXPOSURE",
+    "MDS_Info_Name": "חשיפה למט\"ח",
+    "MDS_Des": "חשיפה למט\"ח"
+  },
+  {
+    "MDS_Name": "MANAGING_CORPORATION_LEGAL_ID",
+    "MDS_Info_Name": "ח.פ חברה",
+    "MDS_Des": "ח.פ. של החברה המנהלת"
+  },
+  {
+    "MDS_Name": "CURRENT_DATE",
+    "MDS_Info_Name": "תאריך נוכחי",
+    "MDS_Des": "תאריך נוכחי"
+  }
+]
