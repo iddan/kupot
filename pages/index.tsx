@@ -26,7 +26,7 @@ const Home: NextPage = () => {
         <footer
           style={{
             padding: "8px",
-            backgroundColor: "#F9F6EF",
+            backgroundColor: "#F7F7F7",
             marginTop: "auto",
           }}
         >
