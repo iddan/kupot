@@ -116,8 +116,8 @@
   },
   {
     "MDS_Name": "AVG_ANNUAL_YIELD_TRAILING_3YRS",
-    "MDS_Info_Name": "תשואה שנתיתי ממוצעת ל-3 שנים עוקבות",
-    "MDS_Des": "תשואה שנתיתי ממוצעת ל-3 שנים עוקבות"
+    "MDS_Info_Name": "תשואה שנתית ממוצעת ל-3 שנים עוקבות",
+    "MDS_Des": "תשואה שנתית ממוצעת ל-3 שנים עוקבות"
   },
   {
     "MDS_Name": "AVG_ANNUAL_YIELD_TRAILING_5YRS",

@@ -13,7 +13,7 @@ const Home: NextPage = () => {
       <div
         style={{ display: "flex", flexDirection: "column", height: "100vh" }}
       >
-        <header style={{ padding: 16 }}>
+        <header style={{ padding: "16px 8px" }}>
           <h1 style={{ fontSize: 24, margin: 0 }}>🏦 קופות</h1>
           <p style={{ marginBottom: 0 }}>השוואת קופות גמל והשתלמות בקלות</p>
         </header>
@@ -21,7 +21,7 @@ const Home: NextPage = () => {
           <Table />
         </main>
 
-        <footer style={{ padding: 16 }}>
+        <footer style={{ padding: "16px 8px" }}>
           מידע:{" "}
           <a
             style={{ color: "#6A4E2C", textDecoration: "underline" }}
