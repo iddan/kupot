@@ -163,49 +163,6 @@ const COLUMNS = [
   })
 );
 
-const FUND_CLASSIFICATION_OPTIONS = [
-  // { value: undefined, label: "כל הסוגים" },
-  ...Array.from(
-    new Set(data.map((row) => row.FUND_CLASSIFICATION)),
-    (value) => ({ value, label: value })
-  ),
-];
-
-const REPORT_PERIOD_OPTIONS = [
-  // { value: undefined, label: "כל התקופות" },
-  ...Array.from(new Set(data.map((row) => row.REPORT_PERIOD)), (value) => ({
-    value,
-    label: `${String(value).slice(4)}/${String(value).slice(0, 4)}`,
-  })),
-];
-
-const SPECIALIZATION_OPTIONS = [
-  { value: undefined, label: "כל ההתמחויות" },
-  ...Array.from(new Set(data.map((row) => row.SPECIALIZATION)), (value) => ({
-    value,
-    label: value,
-  })),
-];
-
-const SUB_SPECIALIZATION_OPTIONS = [
-  { value: undefined, label: "כל ההתמחויות" },
-  ...Array.from(
-    new Set(data.map((row) => row.SUB_SPECIALIZATION)),
-    (value) => ({
-      value,
-      label: value,
-    })
-  ),
-];
-
-const TARGET_POPULATION_OPTIONS = [
-  // { value: undefined, label: "כל האוכלוסיות" },
-  ...Array.from(new Set(data.map((row) => row.TARGET_POPULATION)), (value) => ({
-    value,
-    label: value,
-  })),
-];
-
 const SORT_OPTIONS: Array<{
   value: keyof typeof COLUMN_TO_DEFAULT_SORT_ORDER;
   label: string;
@@ -235,6 +192,30 @@ const SORT_OPTIONS: Array<{
   },
 ];
 
+const REPORT_PERIOD_OPTIONS = [
+  // { value: undefined, label: "כל התקופות" },
+  ...Array.from(new Set(data.map((row) => row.REPORT_PERIOD)), (value) => ({
+    value,
+    label: `${String(value).slice(4)}/${String(value).slice(0, 4)}`,
+  })),
+];
+
+const TARGET_POPULATION_OPTIONS = [
+  // { value: undefined, label: "כל האוכלוסיות" },
+  ...Array.from(new Set(data.map((row) => row.TARGET_POPULATION)), (value) => ({
+    value,
+    label: value,
+  })),
+];
+
+const FUND_CLASSIFICATION_OPTIONS = [
+  // { value: undefined, label: "כל הסוגים" },
+  ...Array.from(
+    new Set(data.map((row) => row.FUND_CLASSIFICATION)),
+    (value) => ({ value, label: value })
+  ),
+];
+
 const COLUMN_TO_DEFAULT_SORT_ORDER = {
   FUND_ID: "asc",
   FUND_NAME: "asc",
@@ -246,37 +227,20 @@ const COLUMN_TO_DEFAULT_SORT_ORDER = {
   AVG_ANNUAL_YIELD_TRAILING_5YRS: "desc",
 } as const;
 
-const FILTERS: Array<{
-  column: keyof Row;
-  options: Array<{ value: string; label: string }>;
-}> = [
-  // {
-  //   column: "REPORT_PERIOD",
-  //   options: REPORT_PERIOD_OPTIONS,
-  // },
-  {
-    column: "FUND_CLASSIFICATION",
-    options: FUND_CLASSIFICATION_OPTIONS,
-  },
-  { column: "SPECIALIZATION", options: SPECIALIZATION_OPTIONS },
-  { column: "SUB_SPECIALIZATION", options: SUB_SPECIALIZATION_OPTIONS },
-  { column: "TARGET_POPULATION", options: TARGET_POPULATION_OPTIONS },
-];
-
 function Table() {
   const [sortColumn, setSortColumn] =
     useState<keyof typeof COLUMN_TO_DEFAULT_SORT_ORDER>("FUND_ID");
-  const [filters, setFilters] = useState<
+  const [filterValues, setFilterValues] = useState<
     Partial<Record<keyof Row, string | undefined>>
   >({
-    FUND_CLASSIFICATION: FUND_CLASSIFICATION_OPTIONS[0]?.value,
+    FUND_CLASSIFICATION: "תגמולים ואישית לפיצויים",
     REPORT_PERIOD: REPORT_PERIOD_OPTIONS.at(-1)?.value,
-    TARGET_POPULATION: TARGET_POPULATION_OPTIONS[0]?.value,
+    TARGET_POPULATION: "כלל האוכלוסיה",
   });
 
   const rows = useMemo(() => {
     let tempRows = data;
-    for (const [key, value] of Object.entries(filters)) {
+    for (const [key, value] of Object.entries(filterValues)) {
       if (value)
         tempRows = tempRows.filter((row) => row[key as keyof Row] === value);
     }
@@ -285,7 +249,64 @@ function Table() {
       sortColumn,
       COLUMN_TO_DEFAULT_SORT_ORDER[sortColumn]
     );
-  }, [filters, sortColumn]);
+  }, [filterValues, sortColumn]);
+
+  const specializationOptions = [
+    { value: undefined, label: "כל ההתמחויות" },
+    ...Array.from(
+      new Set(
+        data
+          .filter(
+            (row: Row) =>
+              !filterValues.FUND_CLASSIFICATION ||
+              row.FUND_CLASSIFICATION === filterValues.FUND_CLASSIFICATION
+          )
+          .map((row) => row.SPECIALIZATION)
+      ),
+      (value) => ({
+        value,
+        label: value,
+      })
+    ),
+  ];
+
+  const subSpecializationOptions = [
+    { value: undefined, label: "כל ההתמחויות" },
+    ...Array.from(
+      new Set(
+        data
+          .filter(
+            (row: Row) =>
+              (!filterValues.FUND_CLASSIFICATION ||
+                row.FUND_CLASSIFICATION === filterValues.FUND_CLASSIFICATION) &&
+              (!filterValues.SPECIALIZATION ||
+                row.SPECIALIZATION === filterValues.SPECIALIZATION)
+          )
+          .map((row) => row.SUB_SPECIALIZATION)
+      ),
+      (value) => ({
+        value,
+        label: value,
+      })
+    ),
+  ];
+
+  const filters: Array<{
+    column: keyof Row;
+    options: Array<{ value: string | undefined; label: string }>;
+  }> = [
+    // {
+    //   column: "REPORT_PERIOD",
+    //   options: REPORT_PERIOD_OPTIONS,
+    // },
+    { column: "TARGET_POPULATION", options: TARGET_POPULATION_OPTIONS },
+    {
+      column: "FUND_CLASSIFICATION",
+      options: FUND_CLASSIFICATION_OPTIONS,
+    },
+    { column: "SPECIALIZATION", options: specializationOptions },
+    { column: "SUB_SPECIALIZATION", options: subSpecializationOptions },
+  ];
 
   return (
     <div style={{ display: "flex", flexDirection: "column", flex: 1 }}>
@@ -302,11 +323,12 @@ function Table() {
         <details>
           <summary>
             <strong>סינון: </strong>
-            {FILTERS.filter((filter) => filters[filter.column])
+            {filters
+              .filter((filter) => filterValues[filter.column])
               .map(
                 (filter) =>
                   filter.options.find(
-                    (option) => option.value === filters[filter.column]
+                    (option) => option.value === filterValues[filter.column]
                   )?.label
               )
               .join(", ")}
@@ -321,7 +343,7 @@ function Table() {
             }}
           >
             <em>סננ.י את הטבלה לפי:</em>
-            {FILTERS.map((filter) => (
+            {filters.map((filter) => (
               <div
                 key={filter.column}
                 style={{
@@ -337,14 +359,14 @@ function Table() {
                   instanceId={`${filter.column}-select`}
                   options={filter.options}
                   onChange={(selected) =>
-                    setFilters((filters) => ({
+                    setFilterValues((filters) => ({
                       ...filters,
                       [filter.column]: selected?.value,
                     }))
                   }
                   isClearable={false}
                   value={filter.options.find(
-                    (option) => option.value === filters[filter.column]
+                    (option) => option.value === filterValues[filter.column]
                   )}
                 />
               </div>
@@ -427,7 +449,7 @@ function Table() {
         תקופת דיווח:{" "}
         {
           REPORT_PERIOD_OPTIONS.find(
-            (option) => option.value === filters.REPORT_PERIOD
+            (option) => option.value === filterValues.REPORT_PERIOD
           )?.label
         }
       </p>
