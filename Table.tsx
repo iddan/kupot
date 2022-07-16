@@ -309,7 +309,14 @@ function Table() {
   ];
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", flex: 1 }}>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        flex: 1,
+        overflow: "hidden",
+      }}
+    >
       <div
         style={{
           display: "flex",
@@ -438,13 +445,15 @@ function Table() {
           </div>
         </details>
       </div>
-      <DataGrid
-        columns={COLUMNS}
-        rows={rows}
-        direction="rtl"
-        className="rdg-light"
-        style={{ height: 500 }}
-      />
+      <div style={{ flex: 1, overflow: "hidden" }}>
+        <DataGrid
+          columns={COLUMNS}
+          rows={rows}
+          direction="rtl"
+          className="rdg-light"
+          style={{ height: "100%" }}
+        />
+      </div>
       <p style={{ padding: "0 8px", margin: "8px 0" }}>
         תקופת דיווח:{" "}
         {

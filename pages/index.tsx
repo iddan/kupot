@@ -22,11 +22,14 @@ const Home: NextPage = () => {
             השוואת קופות גמל וקרנות השתלמות בקלות
           </p>
         </header>
-        <main>
-          <Table />
-        </main>
-
-        <footer style={{ padding: "16px 8px" }}>
+        <Table />
+        <footer
+          style={{
+            padding: "8px",
+            backgroundColor: "#F9F6EF",
+            marginTop: "auto",
+          }}
+        >
           מידע:{" "}
           <a
             style={{ color: "#6A4E2C", textDecoration: "underline" }}
