@@ -3,8 +3,42 @@ import * as xlsx from "xlsx";
 import DataGrid, { Column } from "react-data-grid";
 import columns from "./columns.json";
 import data from "./data.json";
-import { useEffect, useMemo, useState } from "react";
-import orderBy from "lodash.orderBy";
+import { useMemo, useState } from "react";
+
+type Row = {
+  FUND_ID: number;
+  FUND_NAME: string;
+  FUND_CLASSIFICATION: string;
+  CONTROLLING_CORPORATION: string;
+  MANAGING_CORPORATION: string;
+  REPORT_PERIOD: number;
+  INCEPTION_DATE: string;
+  TARGET_POPULATION: string;
+  SPECIALIZATION: string;
+  SUB_SPECIALIZATION: string;
+  DEPOSITS: number;
+  WITHDRAWLS: number;
+  INTERNAL_TRANSFERS: number;
+  NET_MONTHLY_DEPOSITS: number;
+  TOTAL_ASSETS: number;
+  AVG_ANNUAL_MANAGEMENT_FEE: number;
+  AVG_DEPOSIT_FEE: number;
+  MONTHLY_YIELD: number;
+  YEAR_TO_DATE_YIELD: number;
+  YIELD_TRAILING_3_YRS: number;
+  YIELD_TRAILING_5_YRS: number;
+  AVG_ANNUAL_YIELD_TRAILING_3YRS: number;
+  AVG_ANNUAL_YIELD_TRAILING_5YRS: number;
+  STANDARD_DEVIATION: number;
+  ALPHA: number;
+  SHARPE_RATIO: number;
+  LIQUID_ASSETS_PERCENT: number;
+  STOCK_MARKET_EXPOSURE: number;
+  FOREIGN_EXPOSURE: number;
+  FOREIGN_CURRENCY_EXPOSURE: number;
+  MANAGING_CORPORATION_LEGAL_ID: number;
+  CURRENT_DATE: string;
+};
 
 function getColumnName(name: string): string {
   const column = columns.find((column) => column.MDS_Name === name);
@@ -124,8 +158,6 @@ const COLUMNS = [
   })
 );
 
-type Row = typeof data[number];
-
 const FUND_CLASSIFICATION_OPTIONS = [
   // { value: undefined, label: "כל הסוגים" },
   ...Array.from(
@@ -169,7 +201,10 @@ const TARGET_POPULATION_OPTIONS = [
   })),
 ];
 
-const SORT_OPTIONS = [
+const SORT_OPTIONS: Array<{
+  value: keyof typeof COLUMN_TO_DEFAULT_SORT_ORDER;
+  label: string;
+}> = [
   { value: "FUND_ID", label: getColumnName("FUND_ID") },
   { value: "FUND_NAME", label: getColumnName("FUND_NAME") },
   { value: "MONTHLY_YIELD", label: getColumnName("MONTHLY_YIELD") },
@@ -195,7 +230,7 @@ const SORT_OPTIONS = [
   },
 ];
 
-const COLUMN_TO_DEFAULT_SORT_ORDER: Record<keyof Row, "asc" | "desc"> = {
+const COLUMN_TO_DEFAULT_SORT_ORDER = {
   FUND_ID: "asc",
   FUND_NAME: "asc",
   MONTHLY_YIELD: "desc",
@@ -204,9 +239,12 @@ const COLUMN_TO_DEFAULT_SORT_ORDER: Record<keyof Row, "asc" | "desc"> = {
   YIELD_TRAILING_5_YRS: "desc",
   AVG_ANNUAL_YIELD_TRAILING_3YRS: "desc",
   AVG_ANNUAL_YIELD_TRAILING_5YRS: "desc",
-};
+} as const;
 
-const FILTERS = [
+const FILTERS: Array<{
+  column: keyof Row;
+  options: Array<{ value: string; label: string }>;
+}> = [
   // {
   //   column: "REPORT_PERIOD",
   //   options: REPORT_PERIOD_OPTIONS,
@@ -221,7 +259,8 @@ const FILTERS = [
 ];
 
 function Table() {
-  const [sortColumn, setSortColumn] = useState<keyof Row>("FUND_ID");
+  const [sortColumn, setSortColumn] =
+    useState<keyof typeof COLUMN_TO_DEFAULT_SORT_ORDER>("FUND_ID");
   const [filters, setFilters] = useState<
     Partial<Record<keyof Row, string | undefined>>
   >({
@@ -279,6 +318,7 @@ function Table() {
             <em>סננ.י את הטבלה לפי:</em>
             {FILTERS.map((filter) => (
               <div
+                key={filter.column}
                 style={{
                   flexShrink: 0,
                   display: "flex",
@@ -392,16 +432,19 @@ function Table() {
 
 export default Table;
 
-function rowsToData(rows: Row[]): string[][] {
+function rowsToData(rows: Row[]): Array<Array<string | number>> {
   return [
     COLUMNS.map((column) => column.name as string),
     ...rows.map((row) => COLUMNS.map((column) => row[column.key as keyof Row])),
   ];
 }
 
-function exportToCsv<R, SR>(data: string[][], fileName: string) {
+function exportToCsv<R, SR>(
+  data: Array<Array<string | number>>,
+  fileName: string
+) {
   const content = data
-    .map((cells) => cells.map(serialiseCellValue).join(","))
+    .map((cells) => cells.map(serializeCellValue).join(","))
     .join("\n");
 
   downloadFile(
@@ -410,7 +453,7 @@ function exportToCsv<R, SR>(data: string[][], fileName: string) {
   );
 }
 
-function serialiseCellValue(value: unknown) {
+function serializeCellValue(value: unknown) {
   if (typeof value === "string") {
     const formattedValue = value.replace(/"/g, '""');
     return formattedValue.includes(",")
@@ -420,9 +463,14 @@ function serialiseCellValue(value: unknown) {
   return value;
 }
 
-function exportToXlsx<R, SR>(data: string[][], fileName: string) {
+function exportToXlsx<R, SR>(
+  data: Array<Array<string | number>>,
+  fileName: string
+) {
   const wb = xlsx.utils.book_new();
-  const ws = xlsx.utils.aoa_to_sheet(data);
+  const ws = xlsx.utils.aoa_to_sheet(
+    data.map((rows) => rows.map(serializeCellValue))
+  );
   xlsx.utils.book_append_sheet(wb, ws, "Sheet 1");
   xlsx.writeFile(wb, fileName);
 }
@@ -434,4 +482,24 @@ function downloadFile(fileName: string, data: Blob) {
   downloadLink.href = url;
   downloadLink.click();
   URL.revokeObjectURL(url);
+}
+
+function orderBy<SortKey extends string, Item extends Record<SortKey, unknown>>(
+  array: Item[],
+  key: SortKey,
+  dir: "asc" | "desc"
+): Item[] {
+  return array
+    .concat()
+    .sort((a, b) =>
+      a[key] > b[key]
+        ? dir === "asc"
+          ? 1
+          : -1
+        : b[key] > a[key]
+        ? dir === "desc"
+          ? -1
+          : 1
+        : 0
+    );
 }
