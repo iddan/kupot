@@ -51,7 +51,7 @@ function getColumnDescription(name: string): string {
 }
 
 const COLUMNS = [
-  { key: "FUND_ID", name: getColumnName("FUND_ID"), minWidth: 40 },
+  { key: "FUND_ID", name: getColumnName("FUND_ID"), minWidth: 90 },
   {
     key: "FUND_NAME",
     name: getColumnName("FUND_NAME"),
@@ -76,8 +76,13 @@ const COLUMNS = [
   {
     key: "AVG_ANNUAL_MANAGEMENT_FEE",
     name: getColumnName("AVG_ANNUAL_MANAGEMENT_FEE"),
+    minWidth: 275,
   },
-  { key: "AVG_DEPOSIT_FEE", name: getColumnName("AVG_DEPOSIT_FEE") },
+  {
+    key: "AVG_DEPOSIT_FEE",
+    name: getColumnName("AVG_DEPOSIT_FEE"),
+    minWidth: 250,
+  },
   // Yield
   { key: "MONTHLY_YIELD", name: getColumnName("MONTHLY_YIELD") },
   {
@@ -154,7 +159,7 @@ const COLUMNS = [
     ...column,
     resizable: true,
     sortable: true,
-    minWidth: column.name.length * 10,
+    minWidth: column.minWidth || column.name.length * 10,
   })
 );
 
