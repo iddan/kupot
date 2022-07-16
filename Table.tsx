@@ -1,9 +1,9 @@
 import Select from "react-select";
-import * as xlsx from "xlsx";
 import DataGrid, { Column } from "react-data-grid";
 import columns from "./columns.json";
 import data from "./data.json";
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
+import { exportToCsv, exportToXlsx, orderBy } from "./util";
 
 type Row = {
   FUND_ID: number;
@@ -251,45 +251,52 @@ function Table() {
     );
   }, [filterValues, sortColumn]);
 
-  const specializationOptions = [
-    { value: undefined, label: "כל ההתמחויות" },
-    ...Array.from(
-      new Set(
-        data
-          .filter(
-            (row: Row) =>
-              !filterValues.FUND_CLASSIFICATION ||
-              row.FUND_CLASSIFICATION === filterValues.FUND_CLASSIFICATION
-          )
-          .map((row) => row.SPECIALIZATION)
+  const specializationOptions = useMemo(
+    () => [
+      { value: undefined, label: "כל ההתמחויות" },
+      ...Array.from(
+        new Set(
+          data
+            .filter(
+              (row: Row) =>
+                !filterValues.FUND_CLASSIFICATION ||
+                row.FUND_CLASSIFICATION === filterValues.FUND_CLASSIFICATION
+            )
+            .map((row) => row.SPECIALIZATION)
+        ),
+        (value) => ({
+          value,
+          label: value,
+        })
       ),
-      (value) => ({
-        value,
-        label: value,
-      })
-    ),
-  ];
+    ],
+    [filterValues]
+  );
 
-  const subSpecializationOptions = [
-    { value: undefined, label: "כל ההתמחויות" },
-    ...Array.from(
-      new Set(
-        data
-          .filter(
-            (row: Row) =>
-              (!filterValues.FUND_CLASSIFICATION ||
-                row.FUND_CLASSIFICATION === filterValues.FUND_CLASSIFICATION) &&
-              (!filterValues.SPECIALIZATION ||
-                row.SPECIALIZATION === filterValues.SPECIALIZATION)
-          )
-          .map((row) => row.SUB_SPECIALIZATION)
+  const subSpecializationOptions = useMemo(
+    () => [
+      { value: undefined, label: "כל ההתמחויות" },
+      ...Array.from(
+        new Set(
+          data
+            .filter(
+              (row: Row) =>
+                (!filterValues.FUND_CLASSIFICATION ||
+                  row.FUND_CLASSIFICATION ===
+                    filterValues.FUND_CLASSIFICATION) &&
+                (!filterValues.SPECIALIZATION ||
+                  row.SPECIALIZATION === filterValues.SPECIALIZATION)
+            )
+            .map((row) => row.SUB_SPECIALIZATION)
+        ),
+        (value) => ({
+          value,
+          label: value,
+        })
       ),
-      (value) => ({
-        value,
-        label: value,
-      })
-    ),
-  ];
+    ],
+    [filterValues]
+  );
 
   const filters: Array<{
     column: keyof Row;
@@ -307,6 +314,16 @@ function Table() {
     { column: "SPECIALIZATION", options: specializationOptions },
     { column: "SUB_SPECIALIZATION", options: subSpecializationOptions },
   ];
+
+  const handleExportExcel = useCallback(
+    () => exportToXlsx(rowsToData(rows), "kupot.xlsx"),
+    [rows]
+  );
+
+  const handleExportCSV = useCallback(
+    () => exportToCsv(rowsToData(rows), "kupot.csv"),
+    [rows]
+  );
 
   return (
     <div
@@ -434,14 +451,8 @@ function Table() {
             }}
           >
             <em>ייצא.י את הטבלה</em>
-            <button
-              onClick={() => exportToXlsx(rowsToData(rows), "kupot.xlsx")}
-            >
-              Excel
-            </button>
-            <button onClick={() => exportToCsv(rowsToData(rows), "kupot.csv")}>
-              CSV
-            </button>
+            <button onClick={handleExportExcel}>Excel</button>
+            <button onClick={handleExportCSV}>CSV</button>
           </div>
         </details>
       </div>
@@ -468,74 +479,21 @@ function Table() {
 
 export default Table;
 
-function rowsToData(rows: Row[]): Array<Array<string | number>> {
+function rowsToData(rows: Row[]): string[][] {
   return [
     COLUMNS.map((column) => column.name as string),
-    ...rows.map((row) => COLUMNS.map((column) => row[column.key as keyof Row])),
+    ...rows.map((row) =>
+      COLUMNS.map((column) => serializeCellValue(row[column.key as keyof Row]))
+    ),
   ];
 }
 
-function exportToCsv<R, SR>(
-  data: Array<Array<string | number>>,
-  fileName: string
-) {
-  const content = data
-    .map((cells) => cells.map(serializeCellValue).join(","))
-    .join("\n");
-
-  downloadFile(
-    fileName,
-    new Blob([content], { type: "text/csv;charset=utf-8;" })
-  );
-}
-
-function serializeCellValue(value: unknown) {
+function serializeCellValue(value: unknown): string {
   if (typeof value === "string") {
     const formattedValue = value.replace(/"/g, '""');
     return formattedValue.includes(",")
       ? `"${formattedValue}"`
       : formattedValue;
   }
-  return value;
-}
-
-function exportToXlsx<R, SR>(
-  data: Array<Array<string | number>>,
-  fileName: string
-) {
-  const wb = xlsx.utils.book_new();
-  const ws = xlsx.utils.aoa_to_sheet(
-    data.map((rows) => rows.map(serializeCellValue))
-  );
-  xlsx.utils.book_append_sheet(wb, ws, "Sheet 1");
-  xlsx.writeFile(wb, fileName);
-}
-
-function downloadFile(fileName: string, data: Blob) {
-  const downloadLink = document.createElement("a");
-  downloadLink.download = fileName;
-  const url = URL.createObjectURL(data);
-  downloadLink.href = url;
-  downloadLink.click();
-  URL.revokeObjectURL(url);
-}
-
-function orderBy<SortKey extends string, Item extends Record<SortKey, unknown>>(
-  array: Item[],
-  key: SortKey,
-  dir: "asc" | "desc"
-): Item[] {
-  return array
-    .concat()
-    .sort((a, b) =>
-      a[key] > b[key]
-        ? dir === "asc"
-          ? 1
-          : -1
-        : b[key] > a[key]
-        ? dir === "desc"
-          ? -1
-          : 1
-        : 0
-    );
+  return String(value);
 }
