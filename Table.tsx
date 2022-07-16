@@ -17,7 +17,7 @@ function getColumnDescription(name: string): string {
 }
 
 const COLUMNS = [
-  { key: "FUND_ID", name: getColumnName("FUND_ID") },
+  { key: "FUND_ID", name: getColumnName("FUND_ID"), minWidth: 40 },
   {
     key: "FUND_NAME",
     name: getColumnName("FUND_NAME"),
@@ -69,10 +69,12 @@ const COLUMNS = [
   {
     key: "CONTROLLING_CORPORATION",
     name: getColumnName("CONTROLLING_CORPORATION"),
+    width: 300,
   },
   {
     key: "MANAGING_CORPORATION",
     name: getColumnName("MANAGING_CORPORATION"),
+    width: 300,
   },
   // { key: "INCEPTION_DATE", name: getColumnName("INCEPTION_DATE") },
 
@@ -250,6 +252,7 @@ function Table() {
           gap: 8,
           padding: 8,
           paddingTop: 0,
+          paddingBottom: 16,
         }}
       >
         <details>
@@ -312,6 +315,10 @@ function Table() {
             style={{
               paddingRight: "1em",
               paddingTop: 8,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "flex-start",
+              gap: 8,
             }}
           >
             <em>מיינ.י את הטבלה לפי:</em>
@@ -329,9 +336,9 @@ function Table() {
           <summary>
             <strong>מקרא</strong>
           </summary>
-          <div style={{ paddingRight: "1em" }}>
+          <div style={{ paddingRight: "1em", paddingTop: 8 }}>
             {COLUMNS.map((column) => (
-              <p key={column.key}>
+              <p key={column.key} style={{ margin: "0 0 8px" }}>
                 <strong>{getColumnName(column.key)}: </strong>
                 {getColumnDescription(column.key)}
               </p>
@@ -342,21 +349,25 @@ function Table() {
           <summary>
             <strong>ייצוא</strong>
           </summary>
-          <div style={{ paddingRight: "1em" }}>
-            <p>
-              <button
-                onClick={() => exportToXlsx(rowsToData(rows), "kupot.xlsx")}
-              >
-                Excel
-              </button>
-            </p>
-            <p>
-              <button
-                onClick={() => exportToCsv(rowsToData(rows), "kupot.csv")}
-              >
-                CSV
-              </button>
-            </p>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              paddingRight: "1em",
+              paddingTop: 8,
+              gap: 8,
+              alignItems: "flex-start",
+            }}
+          >
+            <em>ייצא.י את הטבלה</em>
+            <button
+              onClick={() => exportToXlsx(rowsToData(rows), "kupot.xlsx")}
+            >
+              Excel
+            </button>
+            <button onClick={() => exportToCsv(rowsToData(rows), "kupot.csv")}>
+              CSV
+            </button>
           </div>
         </details>
       </div>
