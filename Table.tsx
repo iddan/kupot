@@ -195,7 +195,7 @@ const SORT_OPTIONS = [
   },
 ];
 
-const COLUMN_TO_DEFAULT_SORT_ORDER = {
+const COLUMN_TO_DEFAULT_SORT_ORDER: Record<keyof Row, "asc" | "desc"> = {
   FUND_ID: "asc",
   FUND_NAME: "asc",
   MONTHLY_YIELD: "desc",
