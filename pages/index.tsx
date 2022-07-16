@@ -7,7 +7,10 @@ const Home: NextPage = () => {
     <>
       <Head>
         <title>קופות</title>
-        <meta name="description" content="השוואת קופות גמל והשתלמות בקלות" />
+        <meta
+          name="description"
+          content="השוואת קופות גמל וקרנות השתלמות בקלות"
+        />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div
@@ -15,7 +18,9 @@ const Home: NextPage = () => {
       >
         <header style={{ padding: "16px 8px" }}>
           <h1 style={{ fontSize: 24, margin: 0 }}>🏦 קופות</h1>
-          <p style={{ marginBottom: 0 }}>השוואת קופות גמל והשתלמות בקלות</p>
+          <p style={{ marginBottom: 0 }}>
+            השוואת קופות גמל וקרנות השתלמות בקלות
+          </p>
         </header>
         <main>
           <Table />

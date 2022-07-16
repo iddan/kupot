@@ -11,6 +11,11 @@ function getColumnName(name: string): string {
   return column!.MDS_Info_Name;
 }
 
+function getColumnDescription(name: string): string {
+  const column = columns.find((column) => column.MDS_Name === name);
+  return column!.MDS_Des;
+}
+
 const COLUMNS = [
   { key: "FUND_ID", name: getColumnName("FUND_ID") },
   {
@@ -242,7 +247,7 @@ function Table() {
         style={{
           display: "flex",
           flexDirection: "column",
-          gap: 16,
+          gap: 8,
           padding: 8,
           paddingTop: 0,
         }}
@@ -264,13 +269,21 @@ function Table() {
               display: "flex",
               flexDirection: "column",
               gap: 8,
-              marginTop: 8,
-              marginRight: "1em",
+              paddingTop: 8,
+              paddingRight: "1em",
             }}
           >
+            <em>סננ.י את הטבלה לפי:</em>
             {FILTERS.map((filter) => (
-              <div style={{ flexShrink: 0 }}>
-                {getColumnName(filter.column)}:{" "}
+              <div
+                style={{
+                  flexShrink: 0,
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 8,
+                }}
+              >
+                <strong>{getColumnName(filter.column)}: </strong>
                 <Select
                   id={`${filter.column}-select`}
                   instanceId={`${filter.column}-select`}
@@ -290,32 +303,62 @@ function Table() {
             ))}
           </div>
         </details>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            gap: 8,
-            alignItems: "center",
-          }}
-        >
-          <strong>מיון: </strong>
-          <Select
-            options={SORT_OPTIONS}
-            value={SORT_OPTIONS.find((option) => option.value === sortColumn)}
-            onChange={(selection) =>
-              selection && setSortColumn(selection.value)
-            }
-            isClearable={false}
-          />
-        </div>
-        <div style={{ display: "flex", flexDirection: "row", gap: 8 }}>
-          <button onClick={() => exportToXlsx(rowsToData(rows), "kupot.xlsx")}>
-            יצא.י Excel
-          </button>
-          <button onClick={() => exportToCsv(rowsToData(rows), "kupot.csv")}>
-            יצא.י CSV
-          </button>
-        </div>
+        <details>
+          <summary>
+            <strong>מיון: </strong>
+            {SORT_OPTIONS.find((option) => option.value === sortColumn)?.label}
+          </summary>
+          <div
+            style={{
+              paddingRight: "1em",
+              paddingTop: 8,
+            }}
+          >
+            <em>מיינ.י את הטבלה לפי:</em>
+            <Select
+              options={SORT_OPTIONS}
+              value={SORT_OPTIONS.find((option) => option.value === sortColumn)}
+              onChange={(selection) =>
+                selection && setSortColumn(selection.value)
+              }
+              isClearable={false}
+            />
+          </div>
+        </details>
+        <details>
+          <summary>
+            <strong>מקרא</strong>
+          </summary>
+          <div style={{ paddingRight: "1em" }}>
+            {COLUMNS.map((column) => (
+              <p key={column.key}>
+                <strong>{getColumnName(column.key)}: </strong>
+                {getColumnDescription(column.key)}
+              </p>
+            ))}
+          </div>
+        </details>
+        <details>
+          <summary>
+            <strong>ייצוא</strong>
+          </summary>
+          <div style={{ paddingRight: "1em" }}>
+            <p>
+              <button
+                onClick={() => exportToXlsx(rowsToData(rows), "kupot.xlsx")}
+              >
+                Excel
+              </button>
+            </p>
+            <p>
+              <button
+                onClick={() => exportToCsv(rowsToData(rows), "kupot.csv")}
+              >
+                CSV
+              </button>
+            </p>
+          </div>
+        </details>
       </div>
       <DataGrid
         columns={COLUMNS}
