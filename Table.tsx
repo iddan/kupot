@@ -342,6 +342,7 @@ function Table() {
           padding: 8,
           paddingTop: 0,
           paddingBottom: 16,
+          overflow: "hidden",
         }}
       >
         <details>
@@ -423,11 +424,26 @@ function Table() {
             />
           </div>
         </details>
-        <details>
+        <details
+          style={{
+            flex: 1,
+            overflow: "hidden",
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
           <summary>
             <strong>מקרא</strong>
           </summary>
-          <div style={{ paddingRight: "1em", paddingTop: 8 }}>
+          <div
+            style={{
+              paddingRight: "1em",
+              paddingTop: 8,
+              height: "100%",
+              overflowY: "auto",
+              paddingBottom: "1em",
+            }}
+          >
             {COLUMNS.map((column) => (
               <p key={column.key} style={{ margin: "0 0 8px" }}>
                 <strong>{getColumnName(column.key)}: </strong>
