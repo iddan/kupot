@@ -12,6 +12,14 @@ const Home: NextPage = () => {
           content="השוואת קופות גמל וקרנות השתלמות בקלות"
         />
         <link rel="icon" href="/favicon.ico" />
+        <meta property="og:url" content="https://kupot.netlify.com" />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="קופות" />
+        <meta
+          property="og:description"
+          content="השוואת קופות גמל וקרנות השתלמות בקלות"
+        />
+        <meta property="og:image" content="/og-image.png" />
       </Head>
       <div
         style={{ display: "flex", flexDirection: "column", height: "100vh" }}
